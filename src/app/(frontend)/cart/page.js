@@ -24,7 +24,7 @@ const Cart = () => {
                 url : apiUrl,
                 method: "GET",
                 headers : {
-                    Authorization : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZTA0ODk3MmQ0ZjZhMjE0MzI5MTFiNiIsImVtYWlsIjoiZmFyb29xQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MjE5OTQxMywiZXhwIjoxNzYyMjAzMDEzfQ.19Y_VeDN-zdFTlFsW77IEXGceFE-ZV_SUUXB1v82a6U"
+                    Authorization : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZTA0ODk3MmQ0ZjZhMjE0MzI5MTFiNiIsImVtYWlsIjoiZmFyb29xQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MjI2NjYxMSwiZXhwIjoxNzYyMjcwMjExfQ.BfmBE48Nhd5IdNXAVRALtRQ2HMabZ719MX3lHhlSH_4"
                 }
             })
             console.log(res)

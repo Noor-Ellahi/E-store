@@ -1,0 +1,117 @@
+// "use client"
+import React from "react";
+
+// Getting Product Info from Mongodb
+import { connectDb } from "@/app/lib/mongodb";
+import Product from "@/app/modals/Product";
+
+import Image from "next/image";
+
+// Components
+import Navbar from "@/app/components/navbar/navbar";
+import Header from "@/app/components/header/header";
+import ProductInfo from "@/app/components/productInfo/ProductInfo";
+
+
+
+
+
+
+
+const ProductInfoPage = async ({ params }) => {
+
+
+    const { slug } = await params;
+    await connectDb();
+    const product = await Product.findOne({ slug }).lean();
+
+    
+    const serializedProducts = {
+        ...product,
+        _id: product._id.toString(), // convert ObjectId to string
+        createdBy: product.createdBy.toString(),
+        createdAt: product.createdAt.toISOString(), // convert Dates to strings
+        updatedAt: product.updatedAt.toISOString(),
+    }
+
+
+
+
+
+
+
+    if (!product) {
+        return <h2>Product not found</h2>;
+    }
+
+
+
+    return (
+        <div>
+            <Header />
+            <Navbar />
+            <div className="relative w-full h-[250px] overflow-hidden flex justify-center">
+                <Image src={"/images/shop-bg.jpg"} width={883} height={1600} alt="shop-bg" priority={true} className="w-full absolute bottom-10  " />
+                <div className="z-1 text-center pt-10">
+                    <h1 className="text-5xl">Shop Single</h1>
+                    <p className="text-lg pt-5">Grab yourself the best! on BAZAAR </p>
+                </div>
+            </div>
+            <ProductInfo
+                product={serializedProducts}
+            />
+
+
+
+            {/* <div className="flex justify-center px-20">
+                <div className="w-[30%] relative">
+                    <ImageModal
+                        src={product.images[0]}
+                        trigger={
+                            <CgArrowsExpandRight className="text-[#777777] absolute right-7.5 top-7.5 transition duration-500 hover:text-[#303030] text-3xl cursor-pointer z-5" />
+                        }
+                    />
+                    <Image
+                        src={product.images[0]}
+                        height={1600}
+                        width={880}
+                        alt={product.name}
+                        priority={true}
+                    />
+                </div>
+                <div className="ml-10 mt-10">
+                    <h1 className="text-3xl font-medium ">{product.name}</h1>
+                    <p className="text-2xl  mt-2 text-xl">$ {product.price - 1}.99</p>
+                    <div className="flex gap-5 mt-10">
+                        <Counter initial={1} />
+                        <button className="text-[#BBBCB6] bg-[#000] px-10 py-2.5 transition border cursor-pointer duration-500 hover:bg-[#fff] hover:text-[#000]">ADD TO CART</button>
+                        <Tooltip text="Add to Wishlist" position="top">
+                            <button className="transition border cursor-pointer duration-500 py-2.5 px-3 text-xl hover:text-[#fff] hover:bg-[#000]"><LuHeart/></button>
+                        </Tooltip>
+                    </div>
+                    <div>
+                        <div className="flex gap-15 mt-20">
+                            <p className=" text-lg">Category:</p>
+                            <p className=" text-[#808080] capitalize">{product.description}</p>
+                        </div>
+                        <div className="flex gap-15">
+                            <p className="mt-3 text-lg">Share:</p>
+
+                            <Tooltip text="Copy URL" position="right">
+                                <CopyUrlButton/>
+                            </Tooltip>
+
+                            
+                            
+
+                        </div>
+                    </div>
+                </div>
+
+            </div> */}
+
+        </div>
+    )
+}
+
+export default ProductInfoPage;

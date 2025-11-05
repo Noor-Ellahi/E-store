@@ -1,9 +1,9 @@
 "use client"
+// import Checking from "@/app/components/checking/checking";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FaFacebook, FaGoogle , FaArrowLeft } from "react-icons/fa";
-
 
 
 const Login = () => {
@@ -53,6 +53,10 @@ const Login = () => {
                 <button className="w-full bg-[#FAFAFA] py-2 px-3 rounded-sm text-sm flex items-center shadow-md transition hover:shadow-lg cursor-pointer"> <FaFacebook className="text-2xl text-blue-500" /><span className="px-20">Sign in with Facebook</span></button>
                 <button className="w-full bg-[#FAFAFA] py-2 px-3 rounded-sm text-sm flex items-center shadow-md transition hover:shadow-lg cursor-pointer"> <FaGoogle className="text-2xl" /><span className="px-20">Sign in with Google</span></button>
             </div>
+
+
+
+            {/* <Checking/> */}
         </div>
     )
 }

@@ -22,22 +22,24 @@ import { CgClose } from "react-icons/cg";
 const ProductInfo = ({ product, show, setShow }) => {
 
     // const pathName = usePathname()
+    console.log(product)
 
-    
-    const desc = product.description.split(" ")
+    const updatedProduct = { ...product };
+
+    const desc = updatedProduct.description.split(" ")
     if (desc.includes("men") || desc.includes("Men")) {
-        product.description = "men"
+        updatedProduct.description = "men"
     }
     else if (desc.includes("women") || desc.includes("Women")) {
-        product.description = "women"
+        updatedProduct.description = "women"
     }
     else {
-        product.description = "unisex"
+        updatedProduct.description = "unisex"
     }
 
     return (
-        <div className={`${show ? "flex justify-center inset-0 fixed items-center bg-[#000000]/60 z-15" : "bg-[#ffffff] py-20 max-md:py-10"}`} onClick={() => setShow(false)}>
-            <div className={`${show ? "bg-[#ffffff]" : ""} flex justify-center px-20 max-md:px-0 max-lg:flex-col max-lg:items-center `} onClick={(e) => e.stopPropagation()}>
+        <div className={`${show ? "flex justify-center inset-0 fixed items-center bg-[#000000]/60 z-15" : "bg-[#ffffff] py-20 max-md:py-10 " }`} onClick={() => setShow(false)}>
+            <div className={`${show ? "bg-[#ffffff] px-[0] max-sm:mx-5" : ""} flex justify-center px-20 max-md:px-0 max-lg:flex-col max-lg:items-center  `} onClick={(e) => e.stopPropagation()}>
                 <div className={ ` w-100 relative max-lg:w-120 max-sm:w-[75%]`}>
                     {
                         !show && (
@@ -82,7 +84,7 @@ const ProductInfo = ({ product, show, setShow }) => {
                     <div>
                         <div className="flex gap-15 mt-20 max-md:mt-10 items-center">
                             <p className=" text-lg">Category:</p>
-                            <p className=" text-[#808080] capitalize">{product.description}</p>
+                            <p className=" text-[#808080] capitalize">{updatedProduct.description}</p>
                         </div>
                         {
                             !show && (

@@ -1,6 +1,6 @@
 // "use client"
 import React from "react";
-
+// , { useEffect, useState } 
 // Getting Product Info from Mongodb
 import { connectDb } from "@/app/lib/mongodb";
 import Product from "@/app/modals/Product";
@@ -11,6 +11,7 @@ import Image from "next/image";
 import Navbar from "@/app/components/navbar/navbar";
 import Header from "@/app/components/header/header";
 import ProductInfo from "@/app/components/productInfo/ProductInfo";
+import axios from "axios";
 
 
 
@@ -21,11 +22,15 @@ import ProductInfo from "@/app/components/productInfo/ProductInfo";
 const ProductInfoPage = async ({ params }) => {
 
 
+    // console.log(params)
+    // const [product, setProduct] = useState()
     const { slug } = await params;
     await connectDb();
     const product = await Product.findOne({ slug }).lean();
 
-    
+
+    console.log(product)
+
     const serializedProducts = {
         ...product,
         _id: product._id.toString(), // convert ObjectId to string
@@ -101,8 +106,8 @@ const ProductInfoPage = async ({ params }) => {
                                 <CopyUrlButton/>
                             </Tooltip>
 
-                            
-                            
+
+
 
                         </div>
                     </div>
@@ -115,3 +120,5 @@ const ProductInfoPage = async ({ params }) => {
 }
 
 export default ProductInfoPage;
+
+

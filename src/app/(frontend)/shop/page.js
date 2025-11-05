@@ -1,3 +1,4 @@
+"use client"
 import Header from "@/app/components/header/header";
 import Navbar from "@/app/components/navbar/navbar";
 import ProductSection from "@/app/components/productSection/productSection";

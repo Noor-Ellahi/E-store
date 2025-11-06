@@ -18,7 +18,7 @@ import { fetchCart } from "@/app/features/carts/cartSlice";
 const Cart = () => {
 
     const dispatch = useDispatch()
-    const carts = useSelector(state => state.cart.items)
+    const carts = useSelector(state => state.cart.items.cart)
 
     console.log(carts)
 

@@ -2,6 +2,8 @@
 import "@/app/styles/globals.css";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -12,12 +14,16 @@ import { store } from "./store";
 
 export default function RootLayout({ children }) {
   return (
-    <Provider store={store}>
-      <html lang="en">
-        <body className="min-h-screen bg-gray-100">
+
+    <html lang="en">
+      <body className="min-h-screen bg-gray-100">
+        <Provider store={store}>
           {children}
-        </body>
-      </html>
-    </Provider>
+          <ToastContainer
+          />
+        </Provider>
+      </body>
+    </html>
+
   );
 }

@@ -5,6 +5,7 @@ import UserModel from "@/app/modals/User";
 // Lib:
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 
 
 export async function POST(req) {
@@ -45,7 +46,7 @@ export async function POST(req) {
     const token = jwt.sign(
       { id: findUser._id, email: findUser.email, role: findUser.role },  // payload
       process.env.JWT_SECRET,                       // secret
-      { expiresIn: "1h" }                           // expiry
+      { expiresIn: "1h"}                           // expiry
     );
 
 
@@ -55,6 +56,16 @@ export async function POST(req) {
         await findUser.save()
     }
 
+    // ✅ Store token in cookies
+    cookies().set({
+      name: "token",
+      value: token,
+      httpOnly: true,  // cannot be accessed by JS ggggg process.env.NODE_ENV === "production"
+      secure: false, // true for HTTPS
+      sameSite: "strict", // protect from CSRF
+      path: "/", // accessible in whole site
+      maxAge: 60 *60, // 1 day
+    });
 
 
 

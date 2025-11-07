@@ -19,6 +19,7 @@ const Cart = () => {
 
     const dispatch = useDispatch()
     const carts = useSelector(state => state.cart.items.cart)
+    const user = useSelector(state => state.auth.user)
 
     console.log(carts)
 
@@ -64,8 +65,14 @@ const Cart = () => {
                     <p className="text-lg pt-5">Quickly Pack your items!</p>
                 </div>
             </div>
-            {carts &&(
+            {user ?(
                 <CartSection cart={carts}/>
+            ):(
+                <div className="w-full h-50 flex justify-center">
+                    <h1 className="text-[#808080]">
+                        No Cart found! 
+                    </h1>
+                </div>
             )}
 
             <FollowSection/>

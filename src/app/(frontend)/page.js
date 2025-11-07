@@ -1,6 +1,8 @@
 "use client"
 
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux"
+
 
 // components:
 import Header from "../components/header/header";
@@ -11,35 +13,25 @@ import FollowSection from "../components/followSection/followSection";
 import ProductSection from "../components/productSection/productSection";
 import Footer from "../components/footer/footer";
 
+
 // Libraries:
 import Aos from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
+import { fetchUserFromCookie } from "../features/auth/authSlice";
 
 
 
 // Images:
 
 const App = () => {
-  const imgUrl = "/images/kirkdik.jpg"
 
-  const userChecker = async () => {
-    const apiUrl = "http://localhost:3000/api/auth/login"
+  const dispatch = useDispatch()
 
-    try {
-      const res = await axios({
-        method: "POST",
-        url: apiUrl,
-        data: {
-          email: "farooq@gmail.com",
-          password: "Farooq123"
-        }
-      })
-      console.log(res)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  useEffect(()=>{
+    dispatch(fetchUserFromCookie())
+  } ,[dispatch])
+  
 
 
   useEffect(() => {

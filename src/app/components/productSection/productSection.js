@@ -1,19 +1,24 @@
 "use client"
 import axios from "axios"
 import { useEffect, useState } from "react"
-import Image from "next/image"
-
-import { CiSearch, CiHeart } from "react-icons/ci";
 import { usePathname } from "next/navigation";
-import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import Link from "next/link";
+
+// icons
+import { CiSearch, CiHeart } from "react-icons/ci";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+
+// components
 import Tooltip from "../Tooltip";
 import ProductInfo from "../productInfo/ProductInfo";
 
+// Redux 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/app/features/products/productsSlice";
 import { addToCartAsync } from "@/app/features/carts/cartSlice";
+import { toast } from "react-toastify";
 
 
 
@@ -22,8 +27,9 @@ const ProductSection = () => {
 
     const dispatch = useDispatch()
     const products = useSelector(state => state.products.items)
+    const user = useSelector((state) => state.auth.user);
 
-    
+
 
     const router = useRouter();
     const pathName = usePathname();
@@ -43,8 +49,8 @@ const ProductSection = () => {
     const end = Math.min(currentPage * itemsPerPage, total);
 
 
-    
-    
+
+
     useEffect(() => {
         dispatch(fetchProducts());
     }, [dispatch]);
@@ -65,9 +71,25 @@ const ProductSection = () => {
         // console.log(item)
     }
 
-    const addToCart = (e, item) =>{
+    const addToCart = async (e, item) => {
         e.stopPropagation()
-        dispatch(addToCartAsync({_id : item._id , quantity : item.quantity}))
+        try {
+            if (!user) {
+                toast.warn("Please log in first!")
+                return
+            }
+            await dispatch(addToCartAsync({ _id: item._id, quantity: item.quantity }))
+            toast.success("Item added to cart!");
+        } catch (error) {
+            if (err.response?.status === 401) {
+                toast.warn("Please log in first!");
+            } else {
+                toast.error("Something went wrong!");
+            }
+        }
+
+
+        // dispatch(addToCartAsync({ _id: item._id, quantity: item.quantity }))
     }
 
     const handleFilter = (category) => setSelectedCategory(category);
@@ -207,7 +229,7 @@ const ProductSection = () => {
                                         <Tooltip text="Quick view" position="cardLeft">
                                             <button onClick={(e) => check1(e, item)} className=" max-xl:opacity-100 p-2 text-2xl cursor-pointer bg-[#303030] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-200 hover:bg-[#C71932] hover:text-[#fff]"><CiSearch /></button>
                                         </Tooltip>
-                                        <button onClick={(e) => addToCart(e , item)} className="max-xl:opacity-100 mx-0.5 cursor-pointer w-[75%] py-2 bg-[#303030] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-100 hover:bg-[#C71932] hover:text-[#fff]">ADD TO CART</button>
+                                        <button onClick={(e) => addToCart(e, item)} className="max-xl:opacity-100 mx-0.5 cursor-pointer w-[75%] py-2 bg-[#303030] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-100 hover:bg-[#C71932] hover:text-[#fff]">ADD TO CART</button>
                                         <Tooltip text="Add to Wishlist" position="cardRight">
                                             <button className="max-xl:opacity-100 p-2 text-2xl cursor-pointer bg-[#303030] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-200 hover:bg-[#C71932] hover:text-[#fff]"><CiHeart /></button>
                                         </Tooltip>
@@ -284,21 +306,21 @@ export default ProductSection
 
 
 // const router = useRouter();
-    // const pathName = usePathname();
+// const pathName = usePathname();
 
-    // const [gridCols, setGridCols] = useState(5)
-    // // const [productList, setProductList] = useState([])
-    // const [selectedCategory, setSelectedCategory] = useState("Shirts");
-    // const [filteredProducts, setFilteredProducts] = useState()
-    // const [show, setShow] = useState(false)
-    // const [data, setData] = useState(false)
+// const [gridCols, setGridCols] = useState(5)
+// // const [productList, setProductList] = useState([])
+// const [selectedCategory, setSelectedCategory] = useState("Shirts");
+// const [filteredProducts, setFilteredProducts] = useState()
+// const [show, setShow] = useState(false)
+// const [data, setData] = useState(false)
 
 
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const itemsPerPage = 15;
-    // const total = products.length; // e.g. 32
-    // const start = (currentPage - 1) * itemsPerPage + 1;
-    // const end = Math.min(currentPage * itemsPerPage, total);
+// const [currentPage, setCurrentPage] = useState(1);
+// const itemsPerPage = 15;
+// const total = products.length; // e.g. 32
+// const start = (currentPage - 1) * itemsPerPage + 1;
+// const end = Math.min(currentPage * itemsPerPage, total);
 
 
 // // // For pagination

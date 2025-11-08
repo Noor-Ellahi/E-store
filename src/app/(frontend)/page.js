@@ -18,9 +18,9 @@ import Footer from "../components/footer/footer";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
+
 import { fetchUserFromCookie } from "../features/auth/authSlice";
-
-
+import { fetchCart } from "../features/carts/cartSlice";
 
 // Images:
 
@@ -28,9 +28,10 @@ const App = () => {
 
   const dispatch = useDispatch()
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchUserFromCookie())
-  } ,[dispatch])
+    dispatch(fetchCart())
+  }, [dispatch])
   
 
 

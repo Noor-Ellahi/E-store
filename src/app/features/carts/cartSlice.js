@@ -12,19 +12,19 @@ import axios from "axios";
 //                 Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZTA0ODk3MmQ0ZjZhMjE0MzI5MTFiNiIsImVtYWlsIjoiZmFyb29xQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MjM2OTUzOCwiZXhwIjoxNzYyMzczMTM4fQ.0-15cITwdbWwU2aFkN5ocnzHF-bJNBPMl9ysBygPeGM'}`
 //             }
 //         });
-        
+
 //         return res.data?.cart?.items || [];
 //     } catch (err) {
 //         return thunkAPI.rejectWithValue(err.response?.data?.message || "Failed to fetch cart");
 //     }
 // });
 export const fetchCart = createAsyncThunk('carts/cartSlice', async (_, thunkAPI) => {
-  try {
-    const res = await axios.get('/api/cart'); // <-- NO headers needed
-    return res.data || [];
-  } catch (err) {
-    return thunkAPI.rejectWithValue(err.response?.data?.message || "Failed to fetch cart");
-  }
+    try {
+        const res = await axios.get('/api/cart'); // <-- NO headers needed
+        return res.data || [];
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.response?.data?.message || "Failed to fetch cart");
+    }
 });
 
 // export const addToCartAsync = createAsyncThunk('carts/addToCart', async (product, rejectWithValue) => {
@@ -45,12 +45,12 @@ export const fetchCart = createAsyncThunk('carts/cartSlice', async (_, thunkAPI)
 
 // })
 export const addToCartAsync = createAsyncThunk('carts/addToCart', async (product, thunkAPI) => {
-  try {
-    const res = await axios.post('/api/cart', { productId: product._id, quantity: product.quantity });
-    return res.data?.cart?.items || [];
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to add to cart");
-  }
+    try {
+        const res = await axios.post('/api/cart', { productId: product._id, quantity: product.quantity });
+        return res.data?.cart?.items || [];
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to add to cart");
+    }
 });
 
 
@@ -67,7 +67,13 @@ const cartSlice = createSlice({
             state.items.push(action.payload);
         },
         removeItem: (state, action) => {
-            state.items = state.items.filter(i => i._id !== action.payload);
+            // console.log(state.items)
+            state.items.cart = state.items.cart.filter(i => i._id !== action.payload);
+            // if (Array.isArray(state.items)) {
+            //     state.items = state.items.filter(i => i._id !== action.payload);
+            // } else {
+            //     state.items = [];
+            // }
         },
         clearCart: state => {
             state.items = [];

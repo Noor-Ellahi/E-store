@@ -37,6 +37,8 @@ const ProductInfo = ({ product, show, setShow }) => {
         updatedProduct.description = "unisex"
     }
 
+    
+
     return (
         <div className={`${show ? "flex justify-center inset-0 fixed items-center bg-[#000000]/60 z-15" : "bg-[#ffffff] py-20 max-md:py-10 " }`} onClick={() => setShow(false)}>
             <div className={`${show ? "bg-[#ffffff] px-[0] max-sm:mx-5" : ""} flex justify-center px-20 max-md:px-0 max-lg:flex-col max-lg:items-center  `} onClick={(e) => e.stopPropagation()}>

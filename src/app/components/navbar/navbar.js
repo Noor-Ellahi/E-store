@@ -39,7 +39,7 @@ const Navbar = () => {
                 <div className="flex gap-5 text-3xl">
                     <Link href={"/cart"}><CiShoppingCart className="transition cursor-pointer duration-250 hover:text-[#B32830]" /></Link>
                     <CiSearch className="transition cursor-pointer duration-250 hover:text-[#B32830]" />
-                    <CiUser className="transition cursor-pointer duration-250 hover:text-[#B32830]" />
+                    <Link href={"/account"}><CiUser className="transition cursor-pointer duration-250 hover:text-[#B32830]" /></Link>
                     <HiMenu className="hidden max-xl:block" onClick={() =>setIsOpen(!isOpen) }/>
                 </div>
             </div>

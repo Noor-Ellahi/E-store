@@ -1,12 +1,33 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import Counter from "@/app/components/Counter"
 import { CgClose } from "react-icons/cg";
 
-const CartSection = ({ cart }) => {
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCart } from "@/app/features/carts/cartSlice";
 
-    console.log(cart.cart)
+
+const CartSection = () => {
+
+    const dispatch = useDispatch()
+    const cart = useSelector(state => state.cart.items.cart)
+    const [get , setGet] = useState(0)
+
+    const delProduct = async (item) => {
+        setGet(get + 1)
+        const res = await axios.delete(
+            `/api/cart/${item.productId._id}`
+        )
+        dispatch(fetchCart());
+        // carts = res.data.items
+    }
+
+    // useEffect(() => {
+    //     dispatch(fetchCart());
+    // },[dispatch , get]);
     return (
         <ul className="w-[100%] flex flex-col items-center justify-center gap-8">
             <li className="flex justify-between text-2xl w-[65%] max-2xl:w-[75%] max-xl:w-[90%] max-xl:text-xl [@media(max-width:575px)]:hidden">
@@ -18,7 +39,7 @@ const CartSection = ({ cart }) => {
                 </div>
             </li>
             {
-                cart.map((item, index) => {
+                (cart || []).map((item, index) => {
                     console.log()
                     return (
 
@@ -41,7 +62,7 @@ const CartSection = ({ cart }) => {
                                 </div>
                                 <div className="flex items-center gap-35 max-xl:gap-25 max-lg:gap-10 max-md:gap-7.5">
                                     <h3>${item.productId.price - 1}.99</h3>
-                                    <CgClose className="text-2xl" />
+                                    <CgClose className="text-2xl" onClick={() => delProduct(item)} />
                                 </div>
                             </div>
                         </li>
@@ -50,7 +71,7 @@ const CartSection = ({ cart }) => {
                 })
             }
             {
-                cart.map((item, index) => {
+                (cart || []).map((item, index) => {
                     return (
 
                         <li key={index} className="h-100 w-full px-5 [@media(min-width:575px)]:hidden">

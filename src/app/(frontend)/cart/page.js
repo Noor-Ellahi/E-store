@@ -17,16 +17,15 @@ import { fetchCart } from "@/app/features/carts/cartSlice";
 
 const Cart = () => {
 
-    const dispatch = useDispatch()
-    const carts = useSelector(state => state.cart.items.cart)
+    
     const user = useSelector(state => state.auth.user)
 
-    console.log(carts)
+    // console.log(carts)
 
 
 
 
-    const [userCart , setUserCart] = useState([])
+    // const [userCart , setUserCart] = useState([])
 
 
     // const getCartPerUser = async () => {
@@ -51,9 +50,7 @@ const Cart = () => {
     //     getCartPerUser()
     // },[])
 
-    useEffect(() => {
-            dispatch(fetchCart());
-        }, [dispatch]);
+    
     return (
         <div className="bg-[#ffffff]">
             <Header />
@@ -65,18 +62,19 @@ const Cart = () => {
                     <p className="text-lg pt-5">Quickly Pack your items!</p>
                 </div>
             </div>
-            {user ?(
-                <CartSection cart={carts}/>
-            ):(
+            {user ? (
+                // <CartSection cart={carts} />
+                <CartSection />
+            ) : (
                 <div className="w-full h-50 flex justify-center">
                     <h1 className="text-[#808080]">
-                        No Cart found! 
+                        No Cart found!
                     </h1>
                 </div>
             )}
 
-            <FollowSection/>
-            <Footer/>
+            <FollowSection />
+            <Footer />
         </div>
 
     )

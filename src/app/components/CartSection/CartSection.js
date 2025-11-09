@@ -13,22 +13,47 @@ import Link from "next/link";
 
 const CartSection = () => {
 
+
+
     const dispatch = useDispatch()
     const cart = useSelector(state => state.cart.items.cart)
-    const [get, setGet] = useState(0)
+    const totalQuantity = cart?.reduce((sum, item) => sum + item.productId.quantity, 0);
 
     const delProduct = async (item) => {
-        setGet(get + 1)
         const res = await axios.delete(
             `/api/cart/${item.productId._id}`
         )
         dispatch(fetchCart());
         // carts = res.data.items
     }
-    const clearCart = () => {
-        const res = axios.post('/api/cart/clear')
+    const clearCart = async () => {
+        const res = await axios.post('/api/cart/clear')
         dispatch(fetchCart())
     }
+
+    const handleQuantityChange = async (id, newQuantity) => {
+        try {
+            await axios.put(`/api/cart`, { productId: id, quantity: newQuantity });
+
+        } catch (err) {
+            console.error("Failed to update quantity:", err);
+        }
+    };
+
+
+    const calTotalPrice = () => {
+        // console.log(cart)
+        var initialVal = 0
+        // const getData = cart.productId
+        for (let i = 0; i < cart.length; i++) {
+            // console.log(cart[i].productId.price)
+            var initialVal = initialVal + cart[i].productId.price
+        }
+        console.log(initialVal)
+    }
+
+
+
 
     useEffect(() => {
         dispatch(fetchCart());
@@ -43,8 +68,8 @@ const CartSection = () => {
                             <h1 className="pl-2">Product</h1>
                             <div className="flex gap-32 max-xl:gap-25 max-lg:gap-20 max-md:gap-10">
                                 <h1>Price</h1>
-                                <h1>Product</h1>
-                                <h1 className="pr-40 max-xl:pr-30 max-lg:pr-15 max-md:pr-11">Product</h1>
+                                <h1>Quantity</h1>
+                                <h1 className="pr-40 max-xl:pr-30 max-lg:pr-15 max-md:pr-11">Subtotal</h1>
                             </div>
                         </li>
                         {
@@ -67,10 +92,10 @@ const CartSection = () => {
                                         <div className="flex gap-30  max-xl:gap-25 max-lg:gap-15 max-md:gap-7.5">
                                             <div className="flex items-center gap-25 max-xl:gap-15 max-lg:gap-7.5 max-md:gap-5 ">
                                                 <h3>${item.productId.price - 1}.99</h3>
-                                                <Counter carty />
+                                                <Counter carty ity={item} onQuantityChange={handleQuantityChange}/>
                                             </div>
                                             <div className="flex items-center gap-35 max-xl:gap-25 max-lg:gap-10 max-md:gap-7.5">
-                                                <h3>${item.productId.price - 1}.99</h3>
+                                                <h3 onClick={() => check(item)}>${item.productId.price - 1}.99</h3>
                                                 <CgClose className="text-2xl" onClick={() => delProduct(item)} />
                                             </div>
                                         </div>
@@ -122,10 +147,10 @@ const CartSection = () => {
 
                     <div className="w-full flex flex-col items-center justify-center mt-20 gap-15">
                         <div className="w-[65%] flex justify-between">
-                            <button className="transition duration-300 hover:bg-[#000] hover:text-[#fff] py-3 px-7.5 text-[14px] font-semibold font-sans border-2">CONTINUE SHOPPING</button>
+                            <Link href={'/shop'}><button className="transition duration-300 hover:bg-[#000] hover:text-[#fff] py-3 px-7.5 text-[14px] font-semibold font-sans border-2">CONTINUE SHOPPING</button></Link>
                             <div className="flex gap-5">
                                 <button onClick={clearCart} className="transtion duration-300 hover:bg-[#000] hover:text-[#fff] py-3 px-7.5 text-[14px] font-semibold font-sans border-2">CLEAR CART</button>
-                                <button className="transtion duration-300 hover:bg-[#fff] bg-[#000] text-[#fff] hover:text-[#000] py-3 px-7.5 text-[14px] font-semibold font-sans border-2">UPDATE CART</button>
+                                <button onClick={calTotalPrice} className="transtion duration-300 hover:bg-[#fff] bg-[#000] text-[#fff] hover:text-[#000] py-3 px-7.5 text-[14px] font-semibold font-sans border-2">UPDATE CART</button>
                             </div>
                         </div>
                         <div className="w-[65%] flex justify-end">

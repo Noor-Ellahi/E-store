@@ -49,7 +49,7 @@ export async function DELETE(req, { params }) {
       await cart.save();
 
       return new Response(
-        JSON.stringify({ items: cart.items , message: "Item removed successfully" }),
+        JSON.stringify({ items: cart.items, message: "Item removed successfully" }),
         { status: 200 }
       );
     } catch (error) {
@@ -65,3 +65,31 @@ export async function DELETE(req, { params }) {
     );
   }
 }
+
+
+
+// export async function PUT(req) {
+
+
+//   await connectDb()
+//   const cookiesStore = await cookies()
+//   const token = cookiesStore.get('token')?.value
+//   if (!token) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+
+//   try {
+//     const quantity = await req.json()
+
+
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     const cart = await Cart.findOneAndUpdate(decoded.id , {quantity} );
+//     return Response.json({ success: true });
+//   } catch (error) {
+//     return Response.json({ error: "Something went wrong!" });
+//   }
+
+
+
+
+//   }
+
+

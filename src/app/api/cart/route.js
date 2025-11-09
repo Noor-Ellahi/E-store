@@ -179,3 +179,48 @@ export async function POST(req) {
 
 
 
+export async function PUT(req) {
+  try {
+    await connectDb();
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    if (!token)
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+      });
+
+    // Get productId and new quantity from frontend
+    const { productId, quantity } = await req.json();
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Find the user's cart
+    const userCart = await Cart.findOne({ userId: decoded.id });
+
+    if (!userCart) {
+      return Response.json({ error: "Cart not found" }, { status: 404 });
+    }
+
+    // Find the product inside the cart
+    const product = userCart.items.find(
+      (p) => p.productId.toString() === productId
+    );
+
+    if (!product) {
+      return Response.json({ error: "Product not found" }, { status: 404 });
+    }
+
+    // Update quantity
+    product.quantity = quantity;
+
+    // Save the cart
+    await userCart.save();
+
+    return Response.json({ success: true, cart: userCart });
+  } catch (error) {
+    console.error(error);
+    return Response.json({ error: "Something went wrong!" }, { status: 500 });
+  }
+}

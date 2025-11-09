@@ -181,13 +181,13 @@ const ProductSection = () => {
                     <h2 className={`relative hover:text-[black] cursor-pointer transition duration-500  text-lg ${selectedCategory === "bestSeller" ? "text-[black]" : null} `} onClick={() => handleFilter(("bestSeller"))}>Best Seller <span className={` absolute left-0 bottom-0 h-[2px] w-full bg-black origin-center transition-transform duration-300 ${selectedCategory === "bestSeller" ? "scale-x-100" : "scale-x-0"}`} /></h2>
                 </div>
             </div>
-            <div className="px-20 flex justify-between">
+            <div className={`${selectedCategory !== "Shirts" ? "justify-end" : ""} px-20 flex justify-between`}>
                 {pathName === "/shop" && selectedCategory === "Shirts" && (
                     <p className="text-[grey]">Showing {start}–{end} of {total}</p>
                 )}
                 {
                     pathName === "/shop" && (
-                        <ul className="flex gap-3 cursor-pointer text-[grey] max-xl:hidden">
+                        <ul className={` flex gap-3 cursor-pointer mb-5 text-[grey] max-xl:hidden`}>
                             See:
                             {
                                 [2, 3, 4, 5].map(item => {

@@ -73,7 +73,7 @@ const Cart = () => {
                 </div>
             )}
 
-            <FollowSection />
+            {/* <FollowSection /> */}
             <Footer />
         </div>
 

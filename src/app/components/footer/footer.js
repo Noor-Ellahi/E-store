@@ -6,7 +6,7 @@ import Tooltip from "../Tooltip";
 const Footer = () => {
 
     return(
-        <div className="w-full py-12 px-20 flex justify-between max-sm:px-5">
+        <div className="w-full mt-20 py-12 px-20 flex justify-between max-sm:px-5">
             <div>
                 <p className="max-sm:text-sm">© <span className="font-medium">2024 BAZAAR.</span> All rights reserved.</p>
             </div>

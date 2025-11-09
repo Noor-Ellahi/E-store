@@ -3,7 +3,10 @@
 
 html, body {
   overflow-x: hidden;
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  /* font-family: var(--font-poppins); */
+  /* font-family: ; */
+  background-color: #ffffff;
   /* font-family: sans-serif; */
 }
 

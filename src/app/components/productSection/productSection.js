@@ -72,6 +72,7 @@ const ProductSection = () => {
     }
 
     const addToCart = async (e, item) => {
+        console.log(item)
         e.stopPropagation()
         try {
             if (!user) {

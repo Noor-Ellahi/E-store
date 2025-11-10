@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 
@@ -14,15 +14,17 @@ import Tooltip from "@/app/components/Tooltip";
 import { LuHeart } from "react-icons/lu";
 import { CgArrowsExpandRight } from "react-icons/cg";
 import { CgClose } from "react-icons/cg";
+import { useDispatch , useSelector } from "react-redux";
+import { addToCartAsync } from "@/app/features/carts/cartSlice";
+import { toast } from "react-toastify";
 
 
-// import { usePathname } from "next/navigation";
-// className={`${pathName === "/" ? "flex justify-center inset-0 fixed items-center bg-[#808080]" : ""}`}
 
 const ProductInfo = ({ product, show, setShow }) => {
-
-    // const pathName = usePathname()
-    console.log(product)
+    const user = useSelector((state) => state.auth.user);
+    const dispatch = useDispatch()
+    const [quantity , setQuantity] = useState()
+    // console.log(products)
 
     const updatedProduct = { ...product };
 
@@ -36,13 +38,33 @@ const ProductInfo = ({ product, show, setShow }) => {
     else {
         updatedProduct.description = "unisex"
     }
+    const addToCart = async (e) => {
+        // console.log(quantity)
+        e.stopPropagation()
+        try {
+            if (!user) {
+                toast.warn("Please log in first!")
+                return
+            }
+            await dispatch(addToCartAsync({ _id: product._id, quantity : quantity }))
+            toast.success("Item added to cart!");
+        } catch (error) {
+            if (error.response?.status === 401) {
+                toast.warn("Please log in first!");
+            } else {
+                toast.error("Something went wrong!");
+            }
+        }
 
+
+    }
     
 
+
     return (
-        <div className={`${show ? "flex justify-center inset-0 fixed items-center bg-[#000000]/60 z-15" : "bg-[#ffffff] py-20 max-md:py-10 " }`} onClick={() => setShow(false)}>
+        <div className={`${show ? "flex justify-center inset-0 fixed items-center bg-[#000000]/60 z-15" : "bg-[#ffffff] py-20 max-md:py-10 "}`} onClick={() => setShow(false)}>
             <div className={`${show ? "bg-[#ffffff] px-[0] max-sm:mx-5" : ""} flex justify-center px-20 max-md:px-0 max-lg:flex-col max-lg:items-center  `} onClick={(e) => e.stopPropagation()}>
-                <div className={ ` w-100 relative max-lg:w-120 max-sm:w-[75%]`}>
+                <div className={` w-100 relative max-lg:w-120 max-sm:w-[75%]`}>
                     {
                         !show && (
                             <ImageModal
@@ -72,13 +94,13 @@ const ProductInfo = ({ product, show, setShow }) => {
                     <h1 className="text-3xl font-medium ">{product.name}</h1>
                     <p className="text-2xl  mt-2 text-xl">$ {product.price - 1}.99</p>
                     <div className="flex gap-5 max-sm:gap-2 mt-10">
-                        <Counter initial={1} />
+                        <Counter initial={1} quan={quantity} setQuan={setQuantity} />
                         {/* <div className="border flex items-center">
                                     <button className="px-5 "><LuMinus /></button>
                                     <span className="mx-2"></span>
                                     <button className="px-5" ><LuPlus /></button>
                                 </div> */}
-                        <button className="text-[#BBBCB6] bg-[#000] px-10 max-sm:px-5 py-2.5 transition border cursor-pointer duration-500 hover:bg-[#fff] hover:text-[#000]">ADD TO CART</button>
+                        <button onClick={(e) => addToCart(e)} className="text-[#BBBCB6] bg-[#000] px-10 max-sm:px-5 py-2.5 transition border cursor-pointer duration-500 hover:bg-[#fff] hover:text-[#000]">ADD TO CART</button>
                         <Tooltip text="Add to Wishlist" position="top">
                             <button className="transition border cursor-pointer duration-500 py-2.5 px-3 text-xl hover:text-[#fff] hover:bg-[#000]"><LuHeart /></button>
                         </Tooltip>

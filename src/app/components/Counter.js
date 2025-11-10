@@ -1,11 +1,12 @@
 'use client'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { LuPlus, LuMinus } from 'react-icons/lu'
 
 
-export default function QuantityCounter({ initial = 1, carty, cartu , ity ,onQuantityChange}) {
+export default function QuantityCounter({ initial = 1, carty, cartu, ity, onQuantityChange , setQuan }) {
   const [count, setCount] = useState(ity?.quantity || 1)
-
+  const pathName = usePathname()
 
 
   const increment = () => {
@@ -13,13 +14,19 @@ export default function QuantityCounter({ initial = 1, carty, cartu , ity ,onQua
     // console.log(ity)
     const newQty = count + 1;
     setCount(newQty);
-    onQuantityChange(ity.productId._id, newQty);
+    setQuan(newQty)
+    if (pathName === '/cart') {
+      onQuantityChange(ity.productId._id, newQty);
+    }
   }
   const decrement = () => {
     // setCount(prev => (prev > 1 ? prev - 1 : 1))
     const newQty = Math.max(1, count - 1);
     setCount(newQty);
-    onQuantityChange(ity.productId._id, newQty);
+    setQuan(newQty)
+    if (pathName === '/cart') {
+      onQuantityChange(ity.productId._id, newQty);
+    }
   }
 
   return (

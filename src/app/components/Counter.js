@@ -2,14 +2,15 @@
 import { useState } from 'react'
 import { LuPlus, LuMinus } from 'react-icons/lu'
 
-export default function QuantityCounter({ initial = 1, carty, cartu , ity ,onQuantityChange}) {
-  const [count, setCount] = useState(initial)
 
+export default function QuantityCounter({ initial = 1, carty, cartu , ity ,onQuantityChange}) {
+  const [count, setCount] = useState(ity?.quantity || 1)
 
 
 
   const increment = () => {
     // setCount(prev => prev + 1)
+    // console.log(ity)
     const newQty = count + 1;
     setCount(newQty);
     onQuantityChange(ity.productId._id, newQty);

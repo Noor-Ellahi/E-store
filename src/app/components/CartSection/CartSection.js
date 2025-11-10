@@ -17,7 +17,7 @@ const CartSection = () => {
 
     const dispatch = useDispatch()
     const cart = useSelector(state => state.cart.items.cart)
-    const totalQuantity = cart?.reduce((sum, item) => sum + item.productId.quantity, 0);
+    const [total , setTotal] = useState(0)
 
     const delProduct = async (item) => {
         const res = await axios.delete(
@@ -34,6 +34,7 @@ const CartSection = () => {
     const handleQuantityChange = async (id, newQuantity) => {
         try {
             await axios.put(`/api/cart`, { productId: id, quantity: newQuantity });
+            dispatch(fetchCart())
 
         } catch (err) {
             console.error("Failed to update quantity:", err);
@@ -43,12 +44,12 @@ const CartSection = () => {
 
     const calTotalPrice = () => {
         // console.log(cart)
-        var initialVal = 0
-        // const getData = cart.productId
+        var initialVal = 0        
         for (let i = 0; i < cart.length; i++) {
-            // console.log(cart[i].productId.price)
-            var initialVal = initialVal + cart[i].productId.price
+            // console.log(cart[i].quantity * cart[i].productId.price)
+            var initialVal = initialVal + (cart[i].quantity * cart[i].productId.price)
         }
+        setTotal(initialVal)
         console.log(initialVal)
     }
 
@@ -129,14 +130,14 @@ const CartSection = () => {
                                         </div>
                                         <div className="flex justify-between items-center py-3 border-b-1 border-gray-200">
                                             <h1 className="font-medium  text-[#000000]">Quantity:</h1>
-                                            <Counter cart />
+                                            <Counter cart ity={item} onQuantityChange={handleQuantityChange}/>
                                         </div>
                                         <div className="flex justify-between items-center py-3 border-b-1 border-gray-200">
                                             <h1 className="font-medium text-[#000000]">SubTotal:</h1>
                                             <h1 className="text-[#828282]">${item.productId.price - 1}.99</h1>
                                         </div>
                                         <div className="flex justify-end items-center py-3 border-b-1 border-gray-200">
-                                            <CgClose />
+                                            <CgClose onClick={() => delProduct(item)}/>
                                         </div>
                                     </li>
 
@@ -145,23 +146,23 @@ const CartSection = () => {
                         }
                     </ul>
 
-                    <div className="w-full flex flex-col items-center justify-center mt-20 gap-15">
-                        <div className="w-[65%] flex justify-between">
-                            <Link href={'/shop'}><button className="transition duration-300 hover:bg-[#000] hover:text-[#fff] py-3 px-7.5 text-[14px] font-semibold font-sans border-2">CONTINUE SHOPPING</button></Link>
+                    <div className="w-full flex flex-col items-center justify-center max-lg:mt-10 mt-20 max-sm:mt-5 gap-15">
+                        <div className="w-[65%] flex justify-between max-lg:w-[90%]">
+                            <Link href={'/shop'}><button className="max-sm:hidden transition duration-300 hover:bg-[#000] hover:text-[#fff] py-3 px-7.5 text-[14px] font-semibold font-sans border-2">CONTINUE SHOPPING</button></Link>
                             <div className="flex gap-5">
                                 <button onClick={clearCart} className="transtion duration-300 hover:bg-[#000] hover:text-[#fff] py-3 px-7.5 text-[14px] font-semibold font-sans border-2">CLEAR CART</button>
                                 <button onClick={calTotalPrice} className="transtion duration-300 hover:bg-[#fff] bg-[#000] text-[#fff] hover:text-[#000] py-3 px-7.5 text-[14px] font-semibold font-sans border-2">UPDATE CART</button>
                             </div>
                         </div>
-                        <div className="w-[65%] flex justify-end">
-                            <div className="w-60">
-                                <div className="flex justify-between text-[#303037] text-lg border-b-1 pb-2 border-[#e2e2e2]">
+                        <div className="w-[65%] max-lg:w-[90%] flex justify-end">
+                            <div className="w-60 max-lg:w-[100%]">
+                                <div className="flex max-lg:w-60 justify-between text-[#303037] text-lg border-b-1 pb-2 border-[#e2e2e2]">
                                     <h2>Subtotal</h2>
-                                    <h2>$ 63.82</h2>
+                                    <h2>$ {total}</h2>
                                 </div>
-                                <div className="flex justify-between text-[#303037] text-lg border-b-1 pb-2 border-[#e2e2e2]">
+                                <div className="flex max-lg:w-60 justify-between text-[#303037] text-lg border-b-1 pb-2 border-[#e2e2e2]">
                                     <h2>Total</h2>
-                                    <h2>$ 63.82</h2>
+                                    <h2>$ {total}</h2>
                                 </div>
                                 <div className="flex justify-end mt-5">
                                     <button className="transtion duration-300 hover:bg-[#fff] bg-[#000] text-[#fff] hover:text-[#000] w-full py-3 text-[14px] font-semibold font-sans border-2">PROCEED TO CHECKOUT</button>

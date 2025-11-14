@@ -17,7 +17,7 @@ import ProductInfo from "../productInfo/ProductInfo";
 // Redux 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/app/features/products/productsSlice";
-import { addToCartAsync } from "@/app/features/carts/cartSlice";
+import { addToCartAsync, fetchCart } from "@/app/features/carts/cartSlice";
 import { toast } from "react-toastify";
 
 
@@ -80,6 +80,7 @@ const ProductSection = () => {
                 return
             }
             await dispatch(addToCartAsync({ _id: item._id, quantity: item.quantity }))
+            dispatch(fetchCart())
             toast.success("Item added to cart!");
         } catch (error) {
             if (err.response?.status === 401) {

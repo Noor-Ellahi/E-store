@@ -12,14 +12,20 @@ import Image from "next/image";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "@/app/features/carts/cartSlice";
+import { fetchUserFromCookie } from "@/app/features/auth/authSlice";
 
 
 
 const Cart = () => {
 
-    
+
     const user = useSelector(state => state.auth.user)
 
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchUserFromCookie())
+    }, [dispatch])
     // console.log(carts)
 
 
@@ -50,7 +56,7 @@ const Cart = () => {
     //     getCartPerUser()
     // },[])
 
-    
+
     return (
         <div className="bg-[#ffffff]">
             <Header />

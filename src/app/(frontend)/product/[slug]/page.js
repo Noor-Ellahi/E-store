@@ -27,7 +27,7 @@ const ProductInfoPage = async ({ params }) => {
     const { slug } = await params;
     await connectDb();
     const product = await Product.findOne({ slug }).lean();
-
+    
 
     console.log(product)
 

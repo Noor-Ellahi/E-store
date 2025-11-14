@@ -5,11 +5,13 @@ import { CiShoppingCart, CiSearch, CiUser } from "react-icons/ci";
 import { HiMenu } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
+import PopUpCredit from "../PopUpRegister/PopUpRegister";
 
 const Navbar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
+    const [pop, setPop] = useState(false)
+
     const cartCount = useSelector(state => state.cart.items.cart?.length)
     const user = useSelector(state => state.auth.user)
     // console.log(cartCount)
@@ -53,12 +55,18 @@ const Navbar = () => {
                     </div>
                     <CiSearch className="transition cursor-pointer duration-250 hover:text-[#B32830]" />
 
-                    { user ? <Link  href={"/account" }><CiUser className="transition cursor-pointer duration-250 hover:text-[#B32830]" /></Link> : <CiUser onClick={() => toast.warning('Please login first')} className="transition cursor-pointer duration-250 hover:text-[#B32830]" />}
+                    { user ? <Link  href={"/account" }><CiUser className="transition cursor-pointer duration-250 hover:text-[#B32830]" /></Link> :<CiUser onClick={() => setPop(true)} className="transition cursor-pointer duration-250 hover:text-[#B32830]" /> }
 
                     <HiMenu className="hidden max-xl:block" onClick={() => setIsOpen(!isOpen)} />
                 </div>
             </div>
 
+            {
+                pop ? 
+                (
+                    <PopUpCredit setPop={setPop}/>
+                ): (null)
+            }
             <div className={`absolute z-9 w-[100%] transition-all duration-500 overflow-hidden bg-[#FAFAFA] max-xl:block hidden ${isOpen ? "h-[25vh] [@media(max-width:400px)]:h-[30vh]" : "h-0"}`}>
                 <ul className=" text-[grey] px-5 pb-5">
                     <li className="transition cursor-pointer duration-250 hover:text-[#B32830] py-2 flex justify-between">Home <span className="text-2xl">+</span></li>

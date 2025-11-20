@@ -8,8 +8,8 @@ const PopUpCredit = ({setPop}) => {
     
 //  ${pop ? "" : "hidden"}
     return (
-        <div className={`inset-0 fixed flex h-screen w-full items-center bg-[#fff]/95 justify-center z-20`}>
-            <div data-aos="fade" data-aos-delay="250" className={`shadow-xl/20 pt-2 relative bg-[#fff] h-60 w-100 flex flex-col justify-around items-center`}>
+        <div className={`inset-0 fixed flex h-screen w-full items-center bg-[#fff]/70 justify-center z-20`}>
+            <div data-aos="fade" data-aos-delay="100" className={`shadow-xl/20 pt-2 relative bg-[#fff] h-60 w-100 flex flex-col justify-around items-center`}>
                 <CgClose className="absolute text-2xl right-5 top-5" onClick={() => setPop(false)} />
                 <p className="text-[#7b7b77] text-2xl">Please Login or Register first!</p>
                 <div>

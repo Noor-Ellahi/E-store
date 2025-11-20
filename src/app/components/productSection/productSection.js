@@ -71,6 +71,23 @@ const ProductSection = () => {
         // console.log(item)
     }
 
+    const addWish = async (e, item) => {
+        e.stopPropagation()
+        // console.log(item)
+        try {
+            const res = await axios.post(
+                '/api/wishlist',
+                {
+                    productId: item._id
+                }
+            )
+            toast(res.data.message)
+            // console.log(res)
+        } catch (error) {
+            console.log("error ouccured", error)
+        }
+    }
+
     const addToCart = async (e, item) => {
         console.log(item)
         e.stopPropagation()
@@ -233,7 +250,7 @@ const ProductSection = () => {
                                         </Tooltip>
                                         <button onClick={(e) => addToCart(e, item)} className="max-xl:opacity-100 mx-0.5 cursor-pointer w-[75%] py-2 bg-[#303030] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-100 hover:bg-[#C71932] hover:text-[#fff]">ADD TO CART</button>
                                         <Tooltip text="Add to Wishlist" position="cardRight">
-                                            <button className="max-xl:opacity-100 p-2 text-2xl cursor-pointer bg-[#303030] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-200 hover:bg-[#C71932] hover:text-[#fff]"><CiHeart /></button>
+                                            <button onClick={(e) => addWish(e, item)} className="max-xl:opacity-100 p-2 text-2xl cursor-pointer bg-[#303030] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-200 hover:bg-[#C71932] hover:text-[#fff]"><CiHeart /></button>
                                         </Tooltip>
                                     </div>
                                 </div>

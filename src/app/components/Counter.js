@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { LuPlus, LuMinus } from 'react-icons/lu'
 
 
-export default function QuantityCounter({ initial = 1, carty, cartu, ity, onQuantityChange , setQuan }) {
+export default function QuantityCounter({ initial = 1, carty, cartu, ity, onQuantityChange, setQuan }) {
   const [count, setCount] = useState(ity?.quantity || 1)
   const pathName = usePathname()
 
@@ -14,8 +14,10 @@ export default function QuantityCounter({ initial = 1, carty, cartu, ity, onQuan
     // console.log(ity)
     const newQty = count + 1;
     setCount(newQty);
-    setQuan(newQty)
-    if (pathName === '/cart') {
+    if (pathName === "/") {
+      setQuan(newQty)
+    }
+    else if (pathName === '/cart') {
       onQuantityChange(ity.productId._id, newQty);
     }
   }
@@ -23,8 +25,10 @@ export default function QuantityCounter({ initial = 1, carty, cartu, ity, onQuan
     // setCount(prev => (prev > 1 ? prev - 1 : 1))
     const newQty = Math.max(1, count - 1);
     setCount(newQty);
-    setQuan(newQty)
-    if (pathName === '/cart') {
+    if (pathName === "/") {
+      setQuan(newQty)
+    }
+    else if (pathName === '/cart') {
       onQuantityChange(ity.productId._id, newQty);
     }
   }

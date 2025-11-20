@@ -50,7 +50,7 @@ const CartSection = () => {
             var initialVal = initialVal + (cart[i].quantity * cart[i].productId.price)
         }
         setTotal(initialVal)
-        console.log(initialVal)
+        // console.log(initialVal)
     }
 
 

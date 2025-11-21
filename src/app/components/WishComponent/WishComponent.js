@@ -56,10 +56,10 @@ const WishComponent = () => {
                         console.log()
                         return (
 
-                            <li key={index} className=" flex justify-between text-[#828282] my-5 w-[65%] max-2xl:w-[75%] max-xl:w-[90%] max-lg:h-20 h-30 [@media(max-width:575px)]:hidde">
-                                <div className="flex items-center gap-7.5 ">
+                            <li key={index} className=" flex justify-between text-[#828282] my-5 w-[65%] max-2xl:w-[75%] max-xl:w-[90%] max-lg:h-20 max-sm:h-15 h-30 max-sm:w-[95%]">
+                                <div className="flex items-center gap-7.5 max-sm:gap-2.5">
                                     <Image
-                                        className="h-full w-30 max-lg:w-20"
+                                        className="h-full w-30 max-lg:w-20 max-sm:w-15"
                                         src={item.images[0]}
                                         width={1080}
                                         height={1920}
@@ -67,15 +67,15 @@ const WishComponent = () => {
                                         priority={true}
                                     />
                                     <div className="flex flex-col">
-                                        <h3 className="font-bold text-[#000]">{item.name}</h3>
+                                        <h3 className="font-bold text-[#000] max-sm:text-sm ">{item.name}</h3>
                                         <h3 className="">$ {item.price - 1}.99 </h3>
                                         <h3 className="">{dayjs(item.createdTime).format("DD MMM YYYY")}</h3>
 
                                     </div>
                                 </div>
-                                <div className="flex gap-30  max-xl:gap-25 max-lg:gap-15 max-md:gap-7.5">
+                                <div className="flex gap-30 max-xl:gap-25 max-lg:gap-15 max-md:gap-7.5 max-sm:gap-2.5">
                                     <div className="flex items-center gap-25 max-xl:gap-15 max-lg:gap-7.5 max-md:gap-5 ">
-                                        <button onClick={() => addToCart(item)} className="text-[#fff] bg-[#000] hover:bg-[#fff] hover:text-[#000] border transition duration-300 py-2.5 px-6">ADD TO CART</button>
+                                        <button onClick={() => addToCart(item)} className="text-[#fff] bg-[#000] max-sm:text-[12px] max-sm:px-4 hover:bg-[#fff] hover:text-[#000] border transition duration-300 py-2.5 px-6">ADD TO CART</button>
                                     </div>
                                     <div className="flex items-center gap-35 max-xl:gap-25 max-lg:gap-10 max-md:gap-7.5">
                                         <CgClose className="text-2xl" onClick={() => delWish(item._id)} />

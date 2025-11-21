@@ -7,10 +7,12 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import PopUpCredit from "../PopUpRegister/PopUpRegister";
 
+
 const Navbar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [pop, setPop] = useState(false)
+    const [hover, setHover] = useState(false)
 
     const cartCount = useSelector(state => state.cart.items.cart?.length)
     const user = useSelector(state => state.auth.user)
@@ -29,16 +31,30 @@ const Navbar = () => {
     //     }
     // }
 
-
     return (
         <div className="relative">
             <div className="flex justify-between px-25 py-10 text-sm max-xl:px-4 bg-[#FAFAFA]">
                 <ul className="flex gap-10 font-medium max-xl:hidden">
                     <li className="transition cursor-pointer duration-250 hover:text-[#B32830]"><Link href={"/"}>HOME</Link></li>
-                    <li className="transition cursor-pointer duration-250 hover:text-[#B32830]">PAGE</li>
+                    <li
+                        onMouseEnter={() => setHover(true)}
+                        onMouseLeave={() => setHover(false)}
+                        className="transition relative cursor-pointer duration-250 hover:text-[#B32830]">
+                        PAGE
+
+                        <ul className={`  transition-all duration-500 ease-out transform ${hover ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-52 pointer-events-none"}  text-[#808080] z-20 absolute font-normal text-[16px] top-7.5  left-[-20px] shadow-xl/20 bg-[#ffffff] w-50 p-5`} >
+                            <Link href={'/account'}><li className="pb-4 hover:text-red-700 transition">My account</li></Link>
+                            <Link href={'/wishlist'}><li className="pb-4 hover:text-red-700 transition">WishList</li></Link>
+                            <li className="pb-4 hover:text-red-700 transition">Contact</li>
+                            <Link href={'cart'}><li className="pb-4 hover:text-red-700 transition">Cart</li></Link>
+                            <li className="pb-4 hover:text-red-700 transition">Socials</li>
+                            <li className=" hover:text-red-700 transition">About</li>
+                        </ul>
+                    </li>
                     <li className="transition cursor-pointer duration-250 hover:text-[#B32830]"><Link href={"/shop"}>SHOP</Link></li>
                     <li className="transition cursor-pointer duration-250 hover:text-[#B32830]">CONTACT</li>
                 </ul>
+
 
                 <h1 className="text-4xl pr-50 font-serif scale-y-150 cursor-pointer max-xl:pr-0 [@media(max-width:400px)]:text-3xl">BAZAAR</h1>
 
@@ -55,17 +71,17 @@ const Navbar = () => {
                     </div>
                     <CiSearch className="transition cursor-pointer duration-250 hover:text-[#B32830]" />
 
-                    { user ? <Link  href={"/account" }><CiUser className="transition cursor-pointer duration-250 hover:text-[#B32830]" /></Link> :<CiUser onClick={() => setPop(true)} className="transition cursor-pointer duration-250 hover:text-[#B32830]" /> }
+                    {user ? <Link href={"/account"}><CiUser className="transition cursor-pointer duration-250 hover:text-[#B32830]" /></Link> : <CiUser onClick={() => setPop(true)} className="transition cursor-pointer duration-250 hover:text-[#B32830]" />}
 
                     <HiMenu className="hidden max-xl:block" onClick={() => setIsOpen(!isOpen)} />
                 </div>
             </div>
 
             {
-                pop ? 
-                (
-                    <PopUpCredit setPop={setPop}/>
-                ): (null)
+                pop ?
+                    (
+                        <PopUpCredit setPop={setPop} />
+                    ) : (null)
             }
             <div className={`absolute z-9 w-[100%] transition-all duration-500 overflow-hidden bg-[#FAFAFA] max-xl:block hidden ${isOpen ? "h-[25vh] [@media(max-width:400px)]:h-[30vh]" : "h-0"}`}>
                 <ul className=" text-[grey] px-5 pb-5">

@@ -51,9 +51,7 @@ const ProductSection = () => {
 
 
 
-    useEffect(() => {
-        dispatch(fetchProducts());
-    }, [dispatch]);
+
     // console.log(products)
 
     const check = (page) => {
@@ -115,6 +113,9 @@ const ProductSection = () => {
     const goToProduct = (slug) => router.push(`/product/${slug}`);
 
 
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, [dispatch]);
 
     useEffect(() => {
         if (selectedCategory === "Shirts") {
@@ -126,7 +127,7 @@ const ProductSection = () => {
             setFilteredProducts(products.filter(item => item.category === selectedCategory).slice(0, 5));
         }
         // console.log(filteredProducts)
-    }, [products, selectedCategory]);
+    }, [products, selectedCategory , pathName]);
 
 
 

@@ -37,7 +37,7 @@ const Account = () => {
                                     <h1 className="text-2xl pb-3">
                                         ORDER HISTORY
                                     </h1>
-                                    <p className="text-[#7B7B77]">You haven't placed any orders yet.</p>
+                                    <p className="text-[#7B7B77]">You haven&apos;t placed any orders yet.</p>
                                 </div>
                             </div>
 

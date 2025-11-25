@@ -47,7 +47,7 @@ const WishComponent = () => {
     useEffect(() => {
         getWishList()
         dispatch(fetchCart());
-    }, [])
+    }, [dispatch])
     return (
         <ul className="w-full flex flex-col justify-between items-center">
             {

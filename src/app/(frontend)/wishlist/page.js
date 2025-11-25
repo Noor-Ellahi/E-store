@@ -18,7 +18,7 @@ const WishList = () => {
 
     useEffect(() => {
         dispatch(fetchUserFromCookie())
-    }, [])
+    }, [dispatch])
     return (
         <div>
             <Header />

@@ -96,7 +96,7 @@ const Login = () => {
                 <button className="w-full bg-[#2240f5] text-[#fff] py-2 rounded-sm transition hover:shadow-lg cursor-pointer" onClick={handleLogin}>SIGN IN</button>
 
                 <div className="flex justify-end w-[100%] pb-2 text-sm">
-                    <p>Don't have an account? <span className="font-medium text-[#2240f5] cursor-pointer"><Link href={"/register"}>Sign Up</Link></span></p>
+                    <p>Don&apos;t have an account? <span className="font-medium text-[#2240f5] cursor-pointer"><Link href={"/register"}>Sign Up</Link></span></p>
                 </div>
 
                 <button className="w-full bg-[#FAFAFA] py-2 px-3 rounded-sm text-sm flex items-center shadow-md transition hover:shadow-lg cursor-pointer"> <FaFacebook className="text-2xl text-blue-500" /><span className="px-20">Sign in with Facebook</span></button>

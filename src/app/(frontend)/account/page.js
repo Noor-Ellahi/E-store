@@ -9,6 +9,7 @@ import Navbar from "@/app/components/navbar/navbar";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserFromCookie } from "@/app/features/auth/authSlice";
 import Footer from "@/app/components/footer/footer";
+import PageDefiner from "@/app/components/PageDefiner/PageDefiner";
 
 const Account = () => {
 
@@ -25,13 +26,7 @@ const Account = () => {
         <div>
             <Header />
             <Navbar />
-            <div className="relative w-full h-[250px] overflow-hidden flex justify-center">
-                <Image src={"/images/shop-bg.jpg"} width={883} height={1600} alt="shop-bg" className="w-full absolute bottom-10  " />
-                <div className="z-1 text-center pt-10">
-                    <h1 className="text-5xl">Account</h1>
-                    <p className="text-lg pt-5">Viewing your account Info!</p>
-                </div>
-            </div>
+            <PageDefiner head={"Account"} para={"Viewing your account Info!"} />
 
             {
                 user ?
@@ -86,7 +81,7 @@ const Account = () => {
 
                             </div>
                         </>
-                    ) : (<h1>NO user Found</h1>)
+                    ) : (<div className="flex justify-center">NO user Found</div>)
             }
 
             <Footer />

@@ -13,6 +13,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "@/app/features/carts/cartSlice";
 import { fetchUserFromCookie } from "@/app/features/auth/authSlice";
+import PageDefiner from "@/app/components/PageDefiner/PageDefiner";
 
 
 
@@ -61,13 +62,14 @@ const Cart = () => {
         <div className="bg-[#ffffff]">
             <Header />
             <Navbar />
-            <div className="relative w-full h-[250px] overflow-hidden flex justify-center">
+            {/* <div className="relative w-full h-[250px] overflow-hidden flex justify-center">
                 <Image src={"/images/shop-bg.jpg"} width={883} height={1600} alt="shop-bg" className="w-full absolute bottom-10  " />
                 <div className="z-1 text-center pt-10">
                     <h1 className="text-5xl">Cart</h1>
                     <p className="text-lg pt-5">Quickly Pack your items!</p>
                 </div>
-            </div>
+            </div> */}
+            <PageDefiner head={"Cart"} para={"Quickly Pack your items!"}/>
             {user ? (
                 // <CartSection cart={carts} />
                 <CartSection />

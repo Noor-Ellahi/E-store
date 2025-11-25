@@ -12,6 +12,7 @@ import Navbar from "@/app/components/navbar/navbar";
 import Header from "@/app/components/header/header";
 import ProductInfo from "@/app/components/productInfo/ProductInfo";
 import axios from "axios";
+import PageDefiner from "@/app/components/PageDefiner/PageDefiner";
 
 
 
@@ -55,13 +56,7 @@ const ProductInfoPage = async ({ params }) => {
         <div>
             <Header />
             <Navbar />
-            <div className="relative w-full h-[250px] overflow-hidden flex justify-center">
-                <Image src={"/images/shop-bg.jpg"} width={883} height={1600} alt="shop-bg" priority={true} className="w-full absolute bottom-10  " />
-                <div className="z-1 text-center pt-10">
-                    <h1 className="text-5xl">Shop Single</h1>
-                    <p className="text-lg pt-5">Grab yourself the best! on BAZAAR </p>
-                </div>
-            </div>
+            <PageDefiner head={"Shop Single"} para={"Grab yourself the best! on BAZAAR"}/>
             <ProductInfo
                 product={serializedProducts}
             />

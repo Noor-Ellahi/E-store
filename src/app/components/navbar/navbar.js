@@ -13,6 +13,7 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [pop, setPop] = useState(false)
     const [hover, setHover] = useState(false)
+    const [dropper , setDropper] = useState(false)
 
     const cartCount = useSelector(state => state.cart.items.cart?.length)
     const user = useSelector(state => state.auth.user)
@@ -43,12 +44,13 @@ const Navbar = () => {
                         PAGE
 
                         <ul className={`  transition-all duration-500 ease-out transform ${hover ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-52 pointer-events-none"}  text-[#808080] z-20 absolute font-normal text-[16px] top-7.5  left-[-20px] shadow-xl/20 bg-[#ffffff] w-50 p-5`} >
-                            <Link href={'/account'}><li className="pb-4 hover:text-red-700 transition">My account</li></Link>
+                            {/* <Link href={'/account'}><li className="pb-4 hover:text-red-700 transition">My account</li></Link> */}
+                            {user ? <Link href={"/account"}><li className="pb-4 hover:text-red-700 transition">My account</li></Link> : <li onClick={() => setPop(true)} className="pb-4 hover:text-red-700 transition">My account</li>}
                             <Link href={'/wishlist'}><li className="pb-4 hover:text-red-700 transition">WishList</li></Link>
                             <li className="pb-4 hover:text-red-700 transition">Contact</li>
                             <Link href={'cart'}><li className="pb-4 hover:text-red-700 transition">Cart</li></Link>
                             <li className="pb-4 hover:text-red-700 transition">Socials</li>
-                            <li className=" hover:text-red-700 transition">About</li>
+                            <Link href={'/about'}> <li className=" hover:text-red-700 transition">About</li></Link>
                         </ul>
                     </li>
                     <li className="transition cursor-pointer duration-250 hover:text-[#B32830]"><Link href={"/shop"}>SHOP</Link></li>
@@ -83,12 +85,22 @@ const Navbar = () => {
                         <PopUpCredit setPop={setPop} />
                     ) : (null)
             }
-            <div className={`absolute z-9 w-[100%] transition-all duration-500 overflow-hidden bg-[#FAFAFA] max-xl:block hidden ${isOpen ? "h-[25vh] [@media(max-width:400px)]:h-[30vh]" : "h-0"}`}>
+            <div className={`absolute z-9 w-[100%] transition-all duration-500 overflow-hidden bg-[#FAFAFA] max-xl:block  hidden ${isOpen ? `h-45 ${dropper ? 'h-105 [@media(max-width:400px)]:h-105' : 'h-45'} [@media(max-width:400px)]:h-45` : "h-0"}`}>
                 <ul className=" text-[grey] px-5 pb-5">
-                    <li className="transition cursor-pointer duration-250 hover:text-[#B32830] py-2 flex justify-between">Home <span className="text-2xl">+</span></li>
-                    <li className="transition cursor-pointer duration-250 hover:text-[#B32830] py-2 flex justify-between">Page <span className="text-2xl">+</span></li>
-                    <li className="transition cursor-pointer duration-250 hover:text-[#B32830] py-2 flex justify-between">Shop <span className="text-2xl">+</span></li>
-                    <li className="transition cursor-pointer duration-250 hover:text-[#B32830] py-2 flex justify-between">Contact <span className="text-2xl">+</span></li>
+                    <li className="transition cursor-pointer duration-250 hover:text-[#B32830] py-2 flex justify-between">Home</li>
+                    <li className="transition cursor-pointer duration-250 hover:text-[#B32830] py-2 flex justify-between" onClick={() =>{setDropper(!dropper)}}>Page <span className="text-xl">+</span></li>
+                    <li className={`overflow-hidden ${dropper ? 'h-60' : ''} h-0`}>
+                        <ul className={`hidde px-5 py-2`}>
+                            {user ? <Link href={"/account"}><li className="pb-4 hover:text-red-700 transition">My account</li></Link> : <li onClick={() => setPop(true)} className="pb-4 hover:text-red-700 transition">My account</li>}
+                            <Link href={'/wishlist'}><li className="pb-4 hover:text-red-700 transition">WishList</li></Link>
+                            <li className="pb-4 hover:text-red-700 transition">Contact</li>
+                            <Link href={'cart'}><li className="pb-4 hover:text-red-700 transition">Cart</li></Link>
+                            <li className="pb-4 hover:text-red-700 transition">Socials</li>
+                            <Link href={'/about'}> <li className=" hover:text-red-700 transition">About</li></Link>
+                        </ul>
+                    </li>
+                    <li className="transition cursor-pointer duration-250 hover:text-[#B32830] py-2 flex justify-between">Shop </li>
+                    <li className="transition cursor-pointer duration-250 hover:text-[#B32830] py-2 flex justify-between">Contact</li>
                 </ul>
             </div>
         </div>

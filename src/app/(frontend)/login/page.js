@@ -91,7 +91,7 @@ const Login = () => {
                         Password
                     </label>
                 </div>
-                <h3 className="text-[#2240f5] text-sm cursor-pointer">Forget password?</h3>
+                <Link href={'/forget'}><h3 className="text-[#2240f5] text-sm cursor-pointer">Forget password?</h3></Link>
 
                 <button className="w-full bg-[#2240f5] text-[#fff] py-2 rounded-sm transition hover:shadow-lg cursor-pointer" onClick={handleLogin}>SIGN IN</button>
 

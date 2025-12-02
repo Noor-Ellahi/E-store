@@ -21,3 +21,17 @@ html, body {
 .Toastify__progress-bar {
   background: linear-gradient(to right, #17af30, #3eb82e) !important;
 }
+
+
+.fade {
+  transition: opacity 0.75s ease;
+}
+.fade-hidden {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+}
+.fade-show {
+  opacity: 1;
+}

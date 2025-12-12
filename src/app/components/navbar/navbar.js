@@ -54,7 +54,7 @@ const Navbar = () => {
                         </ul>
                     </li>
                     <li className="transition cursor-pointer duration-250 hover:text-[#B32830]"><Link href={"/shop"}>SHOP</Link></li>
-                    <li className="transition cursor-pointer duration-250 hover:text-[#B32830]">ABOUT</li>
+                    <Link href={'/about'}><li className="transition cursor-pointer duration-250 hover:text-[#B32830]">ABOUT</li></Link>
                 </ul>
 
 

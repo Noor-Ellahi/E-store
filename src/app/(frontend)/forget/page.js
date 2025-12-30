@@ -131,7 +131,7 @@ const Forget = () => {
                         <div>
                             <h2 className="text-4xl font-serif pb-5 scale-y-150"> BAZAAR</h2>
                             <h1 className="text-2xl font-light mb-4 text-[#8c8c8c]">Forget password?</h1>
-                            <p className="text-sm">We'll email you a password reset code.</p>
+                            <p className="text-sm">We&apos;ll email you a password reset code.</p>
                         </div>
                         <div className="w-full relative mt-5">
                             <input ref={emailRef} type="email" placeholder="Enter your email" className="peer block bg-white py-2.5 pl-2 rounded-sm focus:border-blue-500 border-1 border-[#DADCE0] border-solid w-[100%] outline-none placeholder-transparent" />

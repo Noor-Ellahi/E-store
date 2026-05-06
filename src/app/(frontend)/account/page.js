@@ -7,21 +7,41 @@ import Image from "next/image";
 import Header from "@/app/components/header/header";
 import Navbar from "@/app/components/navbar/navbar";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUserFromCookie } from "@/app/features/auth/authSlice";
+import { fetchUserFromCookie, logout } from "@/app/features/auth/authSlice";
 import Footer from "@/app/components/footer/footer";
 import PageDefiner from "@/app/components/PageDefiner/PageDefiner";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+
 
 const Account = () => {
 
     const user = useSelector(state => state.auth.user)
+    const router = useRouter()
     console.log(user)
 
 
     const dispatch = useDispatch()
 
+
+
+    const loggingOut = async () => {
+        const res = await axios.post(
+            '/api/auth/logout'
+        )
+        console.log(res)
+        dispatch(logout())
+        toast.success(res.data.message)
+        router.push('/')
+    }
+
     useEffect(() => {
         dispatch(fetchUserFromCookie())
     }, [dispatch])
+
     return (
         <div>
             <Header />
@@ -67,14 +87,14 @@ const Account = () => {
                                         </li>
                                         <li className="flex gap-25">
                                             <h2 className="font-bold">Created On:</h2>
-                                            <p className="text-[#7B7B77] font-semibold">{user.createdAt}</p>
+                                            <p className="text-[#7B7B77] font-semibold">{new Date(user.createdAt).toLocaleString()}</p>
                                         </li>
                                         <li>
                                             <h2 className="font-bold">PHONE:</h2>
                                         </li>
                                         <li className="pt-5 flex gap-5">
-                                            <button className=" transtion duration-300 hover:bg-[#000] bg-[#fff] text-[#000] hover:text-[#fff] px-5 py-2.5 text-[14px] font-semibold font-sans border-2">RETURN TO SHOP</button>
-                                            <button className="transtion duration-300 hover:bg-[#fff] bg-[#000] text-[#fff] hover:text-[#000] px-7.5 py-2.5 border-[black] text-[14px] font-semibold font-sans border-2">LOGOUT</button>
+                                            <Link href={'/shop'}><button className=" transtion duration-300 hover:bg-[#000] bg-[#fff] text-[#000] hover:text-[#fff] px-5 py-2.5 text-[14px] font-semibold font-sans border-2">RETURN TO SHOP</button></Link>
+                                            <button onClick={loggingOut} className="transtion duration-300 hover:bg-[#fff] bg-[#000] text-[#fff] hover:text-[#000] px-7.5 py-2.5 border-[black] text-[14px] font-semibold font-sans border-2">LOGOUT</button>
                                         </li>
                                     </ul>
                                 </div>

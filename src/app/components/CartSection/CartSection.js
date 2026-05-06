@@ -9,6 +9,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "@/app/features/carts/cartSlice";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 
 const CartSection = () => {
@@ -17,7 +18,7 @@ const CartSection = () => {
 
     const dispatch = useDispatch()
     const cart = useSelector(state => state.cart.items.cart)
-    const [total , setTotal] = useState(0)
+    const [total, setTotal] = useState(0)
 
     const delProduct = async (item) => {
         const res = await axios.delete(
@@ -41,16 +42,43 @@ const CartSection = () => {
         }
     };
 
+    console.log(cart)
+
 
     const calTotalPrice = () => {
         // console.log(cart)
-        var initialVal = 0        
+        var initialVal = 0
         for (let i = 0; i < cart.length; i++) {
             // console.log(cart[i].quantity * cart[i].productId.price)
             var initialVal = initialVal + (cart[i].quantity * cart[i].productId.price)
         }
         setTotal(initialVal)
         // console.log(initialVal)
+    }
+
+
+    const placeOrder = async () => {
+        try {
+            const { data } = await axios.post("/api/order", {
+                products: cart.map(item => ({
+                    productId: item.productId._id,
+                    quantity: item.quantity
+                }))
+                ,
+                // totalPrice : Number(total)
+            }
+        ,
+        {
+                    withCredentials: true
+                });
+
+            console.log("Order placed:", data);
+
+            toast.success("Order placed successfully")
+
+        } catch (error) {
+            console.error("Failed to update quantity:", error);
+        }
     }
 
 
@@ -93,7 +121,7 @@ const CartSection = () => {
                                         <div className="flex gap-30  max-xl:gap-25 max-lg:gap-15 max-md:gap-7.5">
                                             <div className="flex items-center gap-25 max-xl:gap-15 max-lg:gap-7.5 max-md:gap-5 ">
                                                 <h3>${item.productId.price - 1}.99</h3>
-                                                <Counter carty ity={item} onQuantityChange={handleQuantityChange}/>
+                                                <Counter carty ity={item} onQuantityChange={handleQuantityChange} />
                                             </div>
                                             <div className="flex items-center gap-35 max-xl:gap-25 max-lg:gap-10 max-md:gap-7.5">
                                                 <h3 onClick={() => check(item)}>${item.productId.price - 1}.99</h3>
@@ -130,14 +158,14 @@ const CartSection = () => {
                                         </div>
                                         <div className="flex justify-between items-center py-3 border-b-1 border-gray-200">
                                             <h1 className="font-medium  text-[#000000]">Quantity:</h1>
-                                            <Counter cart ity={item} onQuantityChange={handleQuantityChange}/>
+                                            <Counter cart ity={item} onQuantityChange={handleQuantityChange} />
                                         </div>
                                         <div className="flex justify-between items-center py-3 border-b-1 border-gray-200">
                                             <h1 className="font-medium text-[#000000]">SubTotal:</h1>
                                             <h1 className="text-[#828282]">${item.productId.price - 1}.99</h1>
                                         </div>
                                         <div className="flex justify-end items-center py-3 border-b-1 border-gray-200">
-                                            <CgClose onClick={() => delProduct(item)}/>
+                                            <CgClose onClick={() => delProduct(item)} />
                                         </div>
                                     </li>
 
@@ -165,7 +193,7 @@ const CartSection = () => {
                                     <h2>$ {total}</h2>
                                 </div>
                                 <div className="flex justify-end mt-5">
-                                    <button className="transtion duration-300 hover:bg-[#fff] bg-[#000] text-[#fff] hover:text-[#000] w-full py-3 text-[14px] font-semibold font-sans border-2">PROCEED TO CHECKOUT</button>
+                                    <button onClick={placeOrder} className="transtion duration-300 hover:bg-[#fff] bg-[#000] text-[#fff] hover:text-[#000] w-full py-3 text-[14px] font-semibold font-sans border-2">PROCEED TO CHECKOUT</button>
                                 </div>
                             </div>
                         </div>

@@ -3,27 +3,49 @@
 import { verifyToken } from "@/app/lib/authJWT/auth";
 import { connectDb } from "@/app/lib/mongodb";
 import Order from "@/app/modals/Order";
+import Product from "@/app/modals/Product";
+import { cookies } from "next/headers";
 
 
 export async function POST(req) {
     try {
         await connectDb()
 
-        const user = await verifyToken(req)
-        if (!user) {
+        // const user = await verifyToken(req)
+        // if (!user) {
+        //     return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+        // }
+
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value; // token is now available
+
+        if (!token) {
             return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
         }
 
+        console.log("USER FROM TOKEN:", token);
+        const { products } = await req.json()
 
-        const { products, totalPrice } = await req.json()
-
-        if (!products || products.length === 0 || !totalPrice) {
+        if (!products || products.length === 0) {
             return new Response(JSON.stringify({ error: "Products and totalPrice are required" }), { status: 400 });
         }
 
 
+        // 🔥 calculate totalPrice here (IMPORTANT)
+        let totalPrice = 0;
+
+        for (const item of products) {
+            const product = await Product.findById(item.productId);
+
+            if (!product) {
+                return new Response(JSON.stringify({ error: "Product not found" }), { status: 404 });
+            }
+
+            totalPrice += product.price * item.quantity;
+        }
+
         const order = await Order.create({
-            user: user._id,
+            user: token._id,
             products,
             totalPrice,
         });
@@ -32,7 +54,7 @@ export async function POST(req) {
 
 
     } catch (error) {
-        return new Response(JSON.stringify({ error: "Server side Error" }), { status: 500 });
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
     }
 }
 

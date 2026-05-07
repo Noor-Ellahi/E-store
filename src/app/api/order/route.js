@@ -5,6 +5,7 @@ import { connectDb } from "@/app/lib/mongodb";
 import Order from "@/app/modals/Order";
 import Product from "@/app/modals/Product";
 import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
 
 
 export async function POST(req) {
@@ -23,7 +24,9 @@ export async function POST(req) {
             return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
         }
 
-        console.log("USER FROM TOKEN:", token);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        console.log("USER FROM TOKEN:", decoded);
         const { products } = await req.json()
 
         if (!products || products.length === 0) {
@@ -45,7 +48,7 @@ export async function POST(req) {
         }
 
         const order = await Order.create({
-            user: token._id,
+            user: decoded.id,
             products,
             totalPrice,
         });

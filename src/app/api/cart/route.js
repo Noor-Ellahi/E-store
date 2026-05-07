@@ -50,7 +50,7 @@ export async function GET(req) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             const userCart = await Cart.findOne({ userId: decoded.id }).populate("items.productId");
-            console.log(userCart)
+            // console.log(userCart)
 
             return new Response(JSON.stringify({ cart: userCart?.items || [] }), { status: 200 });
         } catch (err) {

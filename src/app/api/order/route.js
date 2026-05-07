@@ -26,7 +26,7 @@ export async function POST(req) {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        console.log("USER FROM TOKEN:", decoded);
+        // console.log("USER FROM TOKEN:", decoded);
         const { products } = await req.json()
 
         if (!products || products.length === 0) {
@@ -67,10 +67,19 @@ export async function POST(req) {
 
 export async function GET(req) {
     try {
-        const user = await verifyToken(req);
-        if (!user) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+        // const user = await verifyToken(req);
+        // if (!user) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
 
-        const orders = await Order.find({ user: user._id }).populate("products.productId");
+        const cookieStore = await cookies();
+        const token = cookieStore.get("token")?.value; // token is now available
+
+        if (!token) {
+            return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const orders = await Order.find({ user: decoded.id }).populate("products.productId");
         return new Response(JSON.stringify(orders), { status: 200 });
     } catch (err) {
         return new Response(JSON.stringify({ error: err.message }), { status: 500 });

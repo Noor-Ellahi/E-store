@@ -42,7 +42,7 @@ const CartSection = () => {
         }
     };
 
-    console.log(cart)
+    // console.log(cart)
 
 
     const calTotalPrice = () => {

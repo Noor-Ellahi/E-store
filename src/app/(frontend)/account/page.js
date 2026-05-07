@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 
@@ -19,9 +19,11 @@ import { toast } from "react-toastify";
 
 const Account = () => {
 
+    const [order, getOrder] = useState(null)
+
     const user = useSelector(state => state.auth.user)
     const router = useRouter()
-    console.log(user)
+    // console.log(user)
 
 
     const dispatch = useDispatch()
@@ -32,14 +34,28 @@ const Account = () => {
         const res = await axios.post(
             '/api/auth/logout'
         )
-        console.log(res)
+        // console.log(res)
         dispatch(logout())
         toast.success(res.data.message)
         router.push('/')
     }
 
+    const getOrders = async () => {
+        try {
+            const { data } = await axios.get(
+                '/api/order',
+            )
+            console.log(data)
+            getOrder(data)
+        } catch (error) {
+            console.log("Error ouccured", error)
+        }
+
+    }
+
     useEffect(() => {
         dispatch(fetchUserFromCookie())
+        getOrders()
     }, [dispatch])
 
     return (
@@ -57,7 +73,37 @@ const Account = () => {
                                     <h1 className="text-2xl pb-3">
                                         ORDER HISTORY
                                     </h1>
-                                    <p className="text-[#7B7B77]">You haven&apos;t placed any orders yet.</p>
+                                    {
+                                        order ?
+
+                                            <div>
+                                                <ul className="flex gap-2">
+                                                    {
+                                                        order[0].products.map((item, index) => {
+
+                                                            return (
+                                                                <li key={index} className="relative">
+                                                                    <h3 className="absolute bottom-2 right-2.5 font-bold">{item.quantity}x</h3>
+                                                                    <Image
+                                                                        className="h-30 w-30"
+                                                                        width={1080}
+                                                                        height={1920}
+                                                                        priority={true}
+                                                                        alt="orderImg"
+                                                                        src={item.productId.images[0]}
+                                                                    />
+                                                                </li>
+                                                            )
+                                                        })
+                                                    }
+
+                                                </ul>
+                                                <h3 className="mt-5 font-bold">Total : {order[0].totalPrice}$</h3>
+                                            </div>
+                                            :
+                                            <p className="text-[#7B7B77]">You haven&apos;t placed any orders yet.</p>
+
+                                    }
                                 </div>
                             </div>
 

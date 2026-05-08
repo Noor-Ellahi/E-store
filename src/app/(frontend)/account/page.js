@@ -70,22 +70,24 @@ const Account = () => {
                         <>
                             <div className="flex justify-center pb-10">
                                 <div className="w-[65%] max-sm:w-[90%] max-lg:w-[80%]">
-                                    <h1 className="text-2xl pb-3">
+                                    <h1 className="text-2xl pb-5">
                                         ORDER HISTORY
                                     </h1>
+                                    
                                     {
                                         order ?
 
                                             <div>
-                                                <ul className="flex gap-2">
+                                                <ul className="flex gap-2 flex-col">
                                                     {
                                                         order[0].products.map((item, index) => {
 
                                                             return (
-                                                                <li key={index} className="relative">
+                                                                <li key={index} className="relative p-2 border-gray-300 border">
                                                                     <h3 className="absolute bottom-2 right-2.5 font-bold">{item.quantity}x</h3>
+                                                                    <h3 className="absolute top-2 right-2.5">{item.productId.price}$</h3>
                                                                     <Image
-                                                                        className="h-30 w-30"
+                                                                        className="h-25 w-25"
                                                                         width={1080}
                                                                         height={1920}
                                                                         priority={true}
@@ -98,7 +100,10 @@ const Account = () => {
                                                     }
 
                                                 </ul>
-                                                <h3 className="mt-5 font-bold">Total : {order[0].totalPrice}$</h3>
+                                                <div className="flex mt-5 justify-between items-center">
+                                                    <h3>Status : {order[0].status}</h3>
+                                                    <h3 className="font-bold">Total : {order[0].totalPrice}$</h3>
+                                                </div>
                                             </div>
                                             :
                                             <p className="text-[#7B7B77]">You haven&apos;t placed any orders yet.</p>
@@ -107,7 +112,7 @@ const Account = () => {
                                 </div>
                             </div>
 
-                            <div className="flex justify-center">
+                            <div className="flex justify-center mt-5">
                                 <div className="w-[65%] max-sm:w-[90%] max-lg:w-[80%]">
                                     <h1 className="text-2xl pb-7.5">
                                         ACCOUNT DETAILS

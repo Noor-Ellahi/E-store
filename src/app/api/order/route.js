@@ -79,7 +79,7 @@ export async function GET(req) {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        const orders = await Order.find({ user: decoded.id }).populate("products.productId");
+        const orders = await Order.find({ user: decoded.id }).populate("products.productId").sort({ createdAt: -1 });
         return new Response(JSON.stringify(orders), { status: 200 });
     } catch (err) {
         return new Response(JSON.stringify({ error: err.message }), { status: 500 });
